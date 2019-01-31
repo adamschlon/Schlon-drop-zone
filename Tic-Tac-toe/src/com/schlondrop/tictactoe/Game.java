@@ -1,4 +1,4 @@
-package com.schlondrop.example;
+package com.schlondrop.tictactoe;
 import java.util.Scanner;
 
 public class Game {
@@ -6,7 +6,6 @@ public class Game {
     static boolean s = true; //true is running
     public static int currentPlayer = 1;
     static Scanner scnr = new Scanner(System.in);
-    @SuppressWarnings("unused")
     
     
     

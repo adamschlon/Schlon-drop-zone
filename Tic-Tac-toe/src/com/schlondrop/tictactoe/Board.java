@@ -1,4 +1,4 @@
-package com.schlondrop.example;
+package com.schlondrop.tictactoe;
 
 public class Board {
     String[] board;
