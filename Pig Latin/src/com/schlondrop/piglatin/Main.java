@@ -14,7 +14,8 @@ public class Main {
 	private static String userString = "";
 	
     public static void main(String[] args) {
-    	String convertedWords = "";
+    	String convertedWords = ""; // TODO | Why do you need to pass this variable in as an argument in the constructor?
+                                    // TODO | (When you could just initialize it within the ConvertPigLatin class)
     	ConvertPigLatin pl = new ConvertPigLatin(getUserString(), getUserString().split(" "), convertedWords);
     	
     	
@@ -24,7 +25,13 @@ public class Main {
         
         userString += scnr.nextLine();
         String[] words = userString.split(" ");
-        
+
+        /*
+        TODO | (Read what I wrote on ConverPigLatin.java before reading this)
+        TODO |
+        TODO | This entire algorithm could have been done within ConvertPigLatin class so the user doesn't have to
+        TODO | worry about implementing it themselves.
+         */
         int count = 0;
         for (String word : words) {
         	String[] parts = pl.getParts(word, STRING_VOWELS);
@@ -50,7 +57,8 @@ public class Main {
 		return "";
 	}
 	*/
-    
+
+    /* TODO You don't really need a getter for a static variable when you're only using the variable in this class.*/
     public static String getUserString() {
 		return userString;
 	}

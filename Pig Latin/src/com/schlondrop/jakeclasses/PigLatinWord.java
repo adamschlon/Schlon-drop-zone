@@ -1,9 +1,10 @@
-package com.schlondrop.practice2;
-
-import javax.swing.*;
-import java.util.Scanner;
+package com.schlondrop.jakeclasses;
 
 public class PigLatinWord {
+
+    /*
+    Instead of having mine be an object of an entire sentence, I just made it into an object of one pig latin word.
+     */
 
     private String word;
     private String firstVowel;
@@ -35,19 +36,4 @@ public class PigLatinWord {
         return this.firstVowel + this.ending + this.AY;
     }
 
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String s = in.nextLine();
-        String[] a = s.split(" ");
-
-        PigLatinWord[] words = new PigLatinWord[a.length];
-
-        for (int i = 0; i < a.length; i++) {
-            words[i] = new PigLatinWord(a[i]);
-        }
-
-        for (PigLatinWord word : words) {
-            System.out.print(word + " ");
-        }
-    }
 }
