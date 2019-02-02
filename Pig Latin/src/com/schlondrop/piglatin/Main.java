@@ -43,14 +43,6 @@ public class Main {
         scnr.close();
     }
     
-    /*
-    public static String Convert(ConvertPigLatin pl, String[] parts) {
-		System.out.println("STUB OF STRING CONVERTER");
-		
-		return "";
-	}
-	*/
-    
     public static String getUserString() {
 		return userString;
 	}
