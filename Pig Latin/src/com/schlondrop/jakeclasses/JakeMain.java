@@ -19,5 +19,5 @@ public class JakeMain {
             System.out.print(word + " ");
         }
     }
-    
+
 }
