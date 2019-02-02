@@ -18,6 +18,7 @@ public class JakeMain {
         for (PigLatinWord word : words) {
             System.out.print(word + " ");
         }
+        in.close();
     }
 
 }
