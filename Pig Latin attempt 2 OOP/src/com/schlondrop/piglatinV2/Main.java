@@ -15,7 +15,7 @@ public class Main {
  */
 		System.out.println("Enter string to convert");			//prompt user
 		s = in.nextLine();										//get input
-		wordArray = s.split(" ");								//get words in string								
+		wordArray = s.split(" ");							//get words in string
 		
 		
 		
