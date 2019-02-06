@@ -1,5 +1,5 @@
 public interface MyInterface {
 
-    public void insert(Object data, int index);
-    public void insert(Object data);
+    void insert(Object data, int index);
+    void insert(Object data);
     }

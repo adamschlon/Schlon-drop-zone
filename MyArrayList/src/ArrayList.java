@@ -1,162 +1,156 @@
-
-    /*      CLASS MyArray
-     *   Creates ArrayList
-     *   Implements MyInterface
-     */
+/*      CLASS MyArray
+ *   Creates ArrayList
+ *   Implements MyInterface
+ */
 public class ArrayList implements MyInterface {
 
-    private static Object[] myArray;                   //declare initial variables
-    public static int size;
+    private Object[] myArray;                   //declare initial variables
+    public int size;
 
 
     //TODO comment getters
-    public static Object[] getMyArray(){
+    public Object[] getMyArray() {
         return myArray;
     }
-    public static int getSize(){
+
+    public int getSize() {
         return size;
     }
 
     /*      METHOD checkSize
-    *   INPUT: Object[] of myArray
-    *   OUTPUT: False if full, True if space is available
-    *   Throws error if there is more data than space
+     *   INPUT: Object[] of myArray
+     *   OUTPUT: False if full, True if space is available
+     *   Throws error if there is more data than space
      */
     public boolean enoughSize() {
-        if(size < myArray.length){
+        if (size < myArray.length) {
             return true;
-        }
-        else if(size == myArray.length){
+        } else if (size == myArray.length) {
             return false;
-        }
-        else{
+        } else {
             throw new OutOfMemoryError();
         }
     }
 
 
     /*      METHOD increaseSize
-    *   INPUTS: NONE
-    *   OUTPUTS: NONE
-    *   Adds 50 to current array size
+     *   INPUTS: NONE
+     *   OUTPUTS: NONE
+     *   Adds 50 to current array size
      */
-    private void increaseSize(){
-        Object[] tempArray = new Object[size + 50];
-        for(int i = 0; i < myArray.length; i++){
+    public void increaseSize() {
+        Object[] tempArray = new Object[size + 20];
+        for (int i = 0; i < myArray.length; i++) {
             tempArray[i] = myArray[i];
         }
         myArray = tempArray;
     }
 
     /*      CONSTRUCTOR ArrayList
-    *   myArray is object array with size 50
+     *   myArray is object array with size 50
      */
     public ArrayList() {
-        this.myArray = new Object[50];
+        myArray = new Object[20];
     }
 
 
     /*      METHOD getArrayObject
-    *   INPUTS: Index
-    *   OUTPUTS: Object in array at given index
+     *   INPUTS: Index
+     *   OUTPUTS: Object in array at given index
      */
     public Object getArrayObject(int index) {
         return myArray[index];
     }
-
-
-    /*      METHOD shiftArray
-    *   INPUTS: Object array myArray
-    *           Index
-    *   OUTPUTS: NONE
-    *   Makes a null space at given index and shifts everything
-    *   else to the right
-     */
-    private void shiftArray(Object[] a, int index){
-        Object[] tempArray = new Object[size];
-        for (int i = 0; i <= size; i++) {
-            if(i < index){
-                tempArray[i] = a[i];
-            }
-            else if(i == index){
-                tempArray[i] = null;
-                size++;
-            }
-            else{
-                tempArray[i] = a[i - 1];
-            }
-        }
-        a = tempArray;
+    public int getLength(){
+        return myArray.length;
     }
 
 
+    /*      METHOD shiftArray
+     *   INPUTS: Object array myArray
+     *           Index
+     *   OUTPUTS: NONE
+     *   Makes a null space at given index and shifts everything
+     *   else to the right
+     */
+    public void shiftArray(int index) {
+        if (!enoughSize()) {
+            increaseSize();
+        }
+
+        if (index > size){
+            throw new IndexOutOfBoundsException();
+        }
+        Object[] tempArray = new Object[size];
+        for (int i = 0; i <= size; i++) {
+            if (i < index) {
+                tempArray[i] = myArray[i];
+            } else if (i == index) {
+                tempArray[i] = null;
+                size++;
+            } else {
+                tempArray[i] = myArray[i - 1];
+            }
+        }
+        myArray = tempArray;
+    }
+
 
     /*      METHOD insert
-    *   INPUTS: data to add
-    *   OUTPUTS: NONE
-    *   Replaces nearest null value with data
-    *   adding space as needed
+     *   INPUTS: data to add
+     *   OUTPUTS: NONE
+     *   Replaces nearest null value with data
+     *   adding space as needed
      */
     @Override
     public void insert(Object data) {
-        //TODO check size then add to end. is fucked up rn bad
-        if(this.size == myArray.length){
-            this.myArray = new Object[size + 10];
-            myArray[size] = data;
-        }
-        else{
+        if (!enoughSize()) {
+            increaseSize();
+        } else {
             myArray[size] = data;
             size++;
         }
     }
+
     /*      METHOD insert
-    *   INPUTS: data to add, index to insert
-    *   OUTPUTS: NONE
-    *   Adds data at given index shifting
-    *   the rest to the right
+     *   INPUTS: data to add, index to insert
+     *   OUTPUTS: NONE
+     *   Adds data at given index shifting
+     *   the rest to the right
      */
     @Override
     public void insert(Object data, int index) {
 
-        if(enoughSize()){                                //TODO can I call checksize stand alone?
+        if (!enoughSize()) {                                //TODO can I call checksize stand alone?
             increaseSize();
         }
 
-        if(index > size || index < 0){
-            throw new IndexOutOfBoundsException();
-        }
-        if(this.size == myArray.length){
-            this.myArray = new Object[size + 10];
-            if(myArray[index] ==  null){
-                myArray[index] = data;
-            }
-            else{
-                shiftArray(myArray, index);
-                myArray[index] = data;
-            }
-        }
-        else{
+        if (myArray[index] == null) {
             myArray[index] = data;
-            size++;
+
+        } else {
+            shiftArray(index);
+            myArray[index] = data;
         }
     }
 
     /*      METHOD toString COMPLETE
-    *   INPUTS: NONE
-    *   OUTPUTS: NONE
-    *   Converts array to printable string
-    *   ignoring null
+     *   INPUTS: NONE
+     *   OUTPUTS: NONE
+     *   Converts array to printable string
+     *   ignoring null
      */
     @Override
-    public String toString(){
+    public String toString() {
         String stringOfArray = "";
         for (int i = 0; i < myArray.length; i++) {
-            if(myArray[i] != null){
+            if (myArray[i] != null) {
                 stringOfArray += myArray[i];
-                if(i + 1 < myArray.length){
+                if (i + 1 < size) {
                     stringOfArray += "-";
                 }
             }
+            else{stringOfArray += "*";}
         }
         return stringOfArray;
     }
