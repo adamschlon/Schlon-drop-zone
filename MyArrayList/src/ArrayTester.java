@@ -1,5 +1,4 @@
 
-@SuppressWarnings("WeakerAccess")
 public class ArrayTester {
 
     public boolean testHarness() {

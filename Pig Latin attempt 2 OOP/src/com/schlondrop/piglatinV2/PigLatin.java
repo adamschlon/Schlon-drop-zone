@@ -9,8 +9,6 @@ public class PigLatin {
     private String convertedWord = "";
 
 
-    Main m = new Main();
-
     public PigLatin(String word) {                    //constructors
         this.word = word.trim();
     }
@@ -36,14 +34,12 @@ public class PigLatin {
         return convertedWord;
     }
 
-    public String concatWords() {
+    public static String concatWords() {
         String convertedString = "";
-        for (String word : m.getWordArray()) {
+        for (String word : Main.getWordArray()) {
             PigLatin pl = new PigLatin(word);
             convertedString += pl.convertWord() + " ";
         }
         return convertedString;
     }
-
-
 }
