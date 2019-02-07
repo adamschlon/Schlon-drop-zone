@@ -2,19 +2,21 @@
  *   Creates ArrayList
  *   Implements MyInterface
  */
+@SuppressWarnings({"ManualArrayCopy", "StringConcatenationInLoop"})
 public class ArrayList implements MyInterface {
 
     private Object[] myArray;                   //declare initial variables
-    public int size;
+    private Object[] tempArray;                 //saved everything, allow for mutating arrays
+    private int size;                            //amount of data in array, not same as length(storage)
 
 
-    //TODO comment getters
-    public Object[] getMyArray() {
-        return myArray;
-    }
-
-    public int getSize() {
-        return size;
+    /*      CONSTRUCTOR ArrayList
+     *   myArray is object array with size 50
+     */
+    @SuppressWarnings("WeakerAccess")
+    public ArrayList() {
+        myArray = new Object[20];
+        tempArray = new Object[20];
     }
 
     /*      METHOD checkSize
@@ -38,19 +40,18 @@ public class ArrayList implements MyInterface {
      *   OUTPUTS: NONE
      *   Adds 50 to current array size
      */
-    public void increaseSize() {
-        Object[] tempArray = new Object[size + 20];
+    public void increaseArrayLength() {
+        Object[] bigArray = new Object[size + 20];
         for (int i = 0; i < myArray.length; i++) {
-            tempArray[i] = myArray[i];
+            bigArray[i] = myArray[i];
         }
-        myArray = tempArray;
-    }
+        myArray = bigArray;
 
-    /*      CONSTRUCTOR ArrayList
-     *   myArray is object array with size 50
-     */
-    public ArrayList() {
-        myArray = new Object[20];
+        bigArray = new Object[size + 20];
+        for (int i = 0; i < tempArray.length; i++) {
+            bigArray[i] = tempArray[i];
+        }
+        tempArray = bigArray;
     }
 
 
@@ -61,10 +62,26 @@ public class ArrayList implements MyInterface {
     public Object getArrayObject(int index) {
         return myArray[index];
     }
-    public int getLength(){
-        return myArray.length;
-    }
 
+    /*      METHOD getLength
+    *   INPUTS:NONE
+    *   OUTPUTS: Length of array
+     */
+    @SuppressWarnings("WeakerAccess")
+    public int getLength() { return myArray.length; }
+
+    /*      METHOD getSize
+     *   INPUTS:NONE
+     *   OUTPUTS: Amount of data in array
+     */
+    private int getSize() {return size;}
+
+    /*      METHOD incrementSize
+     *   INPUTS:NONE
+     *   OUTPUTS: NONE
+     *   increments the size of the array by 1
+     */
+    public void incrementSize(){size++;}
 
     /*      METHOD shiftArray
      *   INPUTS: Object array myArray
@@ -75,19 +92,18 @@ public class ArrayList implements MyInterface {
      */
     public void shiftArray(int index) {
         if (!enoughSize()) {
-            increaseSize();
+            increaseArrayLength();
         }
-
-        if (index > size){
+        if (index > size) {
             throw new IndexOutOfBoundsException();
         }
-        Object[] tempArray = new Object[size];
-        for (int i = 0; i <= size; i++) {
+
+        for (int i = 0; i <= getSize(); i++) {
             if (i < index) {
                 tempArray[i] = myArray[i];
             } else if (i == index) {
                 tempArray[i] = null;
-                size++;
+                incrementSize();
             } else {
                 tempArray[i] = myArray[i - 1];
             }
@@ -105,10 +121,12 @@ public class ArrayList implements MyInterface {
     @Override
     public void insert(Object data) {
         if (!enoughSize()) {
-            increaseSize();
+            increaseArrayLength();
+            myArray[size] = data;
+            incrementSize();
         } else {
             myArray[size] = data;
-            size++;
+            incrementSize();
         }
     }
 
@@ -121,20 +139,25 @@ public class ArrayList implements MyInterface {
     @Override
     public void insert(Object data, int index) {
 
-        if (!enoughSize()) {                                //TODO can I call checksize stand alone?
-            increaseSize();
+        if (!enoughSize()) {
+            increaseArrayLength();
         }
-
-        if (myArray[index] == null) {
-            myArray[index] = data;
-
+        if (index > size) {
+            throw new IndexOutOfBoundsException();
         } else {
-            shiftArray(index);
-            myArray[index] = data;
+            if (myArray[index] == null) {
+                myArray[index] = data;
+                incrementSize();
+
+            } else {
+                shiftArray(index);
+                myArray[index] = data;
+                incrementSize();
+            }
         }
     }
 
-    /*      METHOD toString COMPLETE
+    /*      METHOD toString
      *   INPUTS: NONE
      *   OUTPUTS: NONE
      *   Converts array to printable string
@@ -149,8 +172,9 @@ public class ArrayList implements MyInterface {
                 if (i + 1 < size) {
                     stringOfArray += "-";
                 }
+            } else {
+                stringOfArray += "*";
             }
-            else{stringOfArray += "*";}
         }
         return stringOfArray;
     }
